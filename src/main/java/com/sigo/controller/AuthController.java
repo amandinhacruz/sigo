@@ -3,7 +3,9 @@ package com.sigo.controller;
 import com.sigo.dto.LoginRequest;
 import com.sigo.model.Usuario;
 import com.sigo.repository.UsuarioRepository;
+import com.sigo.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,19 +16,24 @@ public class AuthController {
 
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest request) {
+    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
 
-        Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-
-        if (!passwordEncoder.matches(request.getSenha(), usuario.getSenha())) {
-            throw new RuntimeException("Senha inválida");
-        }
-
-        return "Login bem sucedido! (aqui futuramente vamos gerar o token)";
+        return usuarioRepository.findByEmail(request.getEmail())
+                .map(usuario -> {
+                    if (!passwordEncoder.matches(request.getSenha(), usuario.getSenha())) {
+                        return ResponseEntity.status(401).body("Senha inválida");
+                    }
+                    // ⚡ Passa o objeto Usuario para gerar token com roles
+                    String token = jwtUtil.gerarToken(usuario);
+                    return ResponseEntity.ok(token);
+                })
+                .orElse(ResponseEntity.status(404).body("Usuário não encontrado"));
     }
+
 }
+
 
 

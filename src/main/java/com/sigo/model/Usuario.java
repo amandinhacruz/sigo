@@ -20,7 +20,6 @@ public class Usuario {
 
         @Column(unique = true)
         private String email;
-
         private String senha;
 
         @ElementCollection(fetch = FetchType.EAGER)

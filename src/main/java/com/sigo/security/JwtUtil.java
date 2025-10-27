@@ -1,23 +1,44 @@
 package com.sigo.security;
 
+import com.sigo.model.Usuario;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
+import java.security.Key;
 import java.util.Date;
 
 @Component
 public class JwtUtil {
 
-    private final String SECRET_KEY = "chave-muito-segura";
+    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private final long EXPIRATION = 1000 * 60 * 60; // 1 hora
 
-    public String gerarToken(String email) {
+    public Key getKey() {
+        return key;
+    }
+
+    // Gera token JWT incluindo roles
+    public String gerarToken(Usuario usuario) {
         return Jwts.builder()
-                .setSubject(email)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 dia
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .setSubject(usuario.getEmail())
+                .claim("roles", usuario.getRoles()) // ⚡ inclui roles no token
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
+                .signWith(key)
                 .compact();
     }
+
+    // Valida token e retorna o email
+    public String validarToken(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
 }
+
+
 

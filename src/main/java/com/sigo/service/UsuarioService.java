@@ -9,6 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UsuarioService {
@@ -19,6 +21,10 @@ public class UsuarioService {
     public Usuario criarUsuario(Usuario usuario) {
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         return usuarioRepository.save(usuario);
+    }
+
+    public List<Usuario> buscarTodos() {
+        return usuarioRepository.findAll();
     }
 }
 

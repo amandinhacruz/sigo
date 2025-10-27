@@ -24,6 +24,8 @@ public class AuthService {
             throw new RuntimeException("Senha inválida");
         }
 
-        return jwtUtil.gerarToken(usuario.getEmail());
+        // Passa o objeto Usuario completo
+        return jwtUtil.gerarToken(usuario);
     }
+
 }

@@ -1,7 +1,6 @@
 package com.sigo.model;
 
 public enum Perfil {
-    OPERADOR,
-    CHEFE,
+    BOMBEIRO,
     ADMIN
 }

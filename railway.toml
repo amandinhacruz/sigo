@@ -1,0 +1,4 @@
+[build]
+builder = "paketobuildpacks/builder:base"
+buildpacks = ["paketo-buildpacks/java"]
+environment = { BP_JVM_VERSION = "24" }

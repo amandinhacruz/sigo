@@ -26,7 +26,7 @@ public class OcorrenciaService {
 
         if(optional.isPresent()) {
             Ocorrencia ocorrencia = optional.get();
-            ocorrencia.setTipo(dadosAtualizados.getTipo());
+            ocorrencia.setRoles(dadosAtualizados.getRoles());
             ocorrencia.setViatura(dadosAtualizados.getViatura());
             ocorrencia.setGrupamento(dadosAtualizados.getGrupamento());
             ocorrencia.setStatus(dadosAtualizados.getStatus());

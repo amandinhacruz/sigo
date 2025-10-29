@@ -28,8 +28,8 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(request -> {
                     var corsConfig = new CorsConfiguration();
                     corsConfig.setAllowedOrigins(List.of(
-                            "http://localhost:3000",                // desenvolvimento local
-                            "https://fabulous-palmier-0d2fc2.netlify.app" // front em produção
+                            "http://localhost:3000",
+                            "https://sigo-cbmpe.netlify.app/" 
                     ));
                     corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                     corsConfig.setAllowedHeaders(List.of("*"));

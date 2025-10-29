@@ -28,8 +28,8 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(request -> {
                     var corsConfig = new CorsConfiguration();
                     corsConfig.setAllowedOrigins(List.of(
-                            "http://localhost:3000",
-                            "https://sigo-cbmpe.netlify.app/"
+                            "http://localhost:5173",
+                            "https://p-i-cbmpe.vercel.app/"
                     ));
                     corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                     corsConfig.setAllowedHeaders(List.of("*"));
